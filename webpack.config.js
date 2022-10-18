@@ -1,20 +1,21 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const path = require('path');
-
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const path = require("path");
+const ENV = process.env.NODE_ENV === "production" ? "production" : "development";
+require("custom-env").env()
 
 module.exports = {
-    mode: "development",
-    entry: './src/index.js',
+    mode: ENV,
+    entry: "./src/index.js",
     devServer: {
         static: {
-            directory: path.join(__dirname, 'public'),
+            directory: path.join(__dirname, "public"),
         },
         compress: true,
         port: 3001,
-        hot: true,
+        hot: process.env.APP_hot,
     },
     output: {
-        filename: 'main.js'
+        filename: "main.js"
     },
     plugins: [new MiniCssExtractPlugin()],
     module: {
@@ -29,5 +30,6 @@ module.exports = {
                 test: /\.css$/
             }
         ]
-    }
+    },
+    devtool: "inline-source-map",
 };
